@@ -1,0 +1,18 @@
+{
+    "Lua.diagnostics.disable": [
+        "unused-function"
+    ],
+    "Lua.diagnostics.globals": [
+        "defaults",
+        "optionSelectMount",
+        "selectedOptionMount",
+        "buttonPosition",
+        "frame",
+        "loginFrame",
+        "createButtonFrame",
+        "getListMountInvocable",
+        "getRandomMount",
+        "getMount",
+        "mountIdInvoqueLast"
+    ]
+}
