@@ -13,6 +13,7 @@
         "getListMountInvocable",
         "getRandomMount",
         "getMount",
-        "mountIdInvoqueLast"
+        "mountIdInvoqueLast",
+        "iconeSize"
     ]
 }

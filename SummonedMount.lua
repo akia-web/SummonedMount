@@ -83,12 +83,12 @@ local function getMount(paramButton, selectedOptionMount)
         if paramButton == "RightButton" then
             if IsFlyableArea() then
                 param = "Volante"
+            elseif IsAdvancedFlyableArea() and IsSwimming()  then
+                param = "dragonriding"
             else
                 param = "terrestre"
             end
         end
-
-   
 
         local list = sortListByParam(Listmounts, param)
         local idMountNumber= getRandomMount(list)
@@ -112,11 +112,24 @@ local function getMount(paramButton, selectedOptionMount)
     end
 end
 
+local function UpdateButtonState(button, event)
+    if event == "PLAYER_REGEN_DISABLED" then
+        button:GetNormalTexture():SetDesaturated(true)
+        button:Disable()
+    else
+        button:Enable()
+        button:GetNormalTexture():SetDesaturated(false)
+    end
+end
+
 loginFrame:SetScript("OnEvent", function(self, event, ...)
+
     
     if event == "PLAYER_LOGIN" then
         selectedOptionMount = SummonedMount.db.profile.selectOption
         buttonPosition = SummonedMount.db.profile.buttonPosition
+        iconeSize = SummonedMount.db.profile.iconeSize
+
         MountButton = createButtonFrame()
         
         MountButton:SetScript("OnDragStart", function(self)
@@ -124,11 +137,14 @@ loginFrame:SetScript("OnEvent", function(self, event, ...)
                 self:StartMoving()
             end
         end)
+        
 
         MountButton:SetScript("OnDragStop", function(self)
             self:StopMovingOrSizing()
             local point, _, relativePoint, x, y = self:GetPoint()
             local buttonPosition = SummonedMount.db.profile.buttonPosition
+            buttonPosition.point = point
+            buttonPosition.relativePoint = relativePoint
             buttonPosition.x = x
             buttonPosition.y = y
             SummonedMount.db.profile.buttonPosition = buttonPosition
@@ -143,13 +159,17 @@ loginFrame:SetScript("OnEvent", function(self, event, ...)
                 if button == "MiddleButton" then
                     C_MountJournal.SummonByID(460)
                     mountIdInvoqueLast = 460
+                    return
                 end
             
                 getMount(button, selectedOptionMount)
             end
         end)
-
     end
+    if event == "PLAYER_REGEN_DISABLED" or event == "PLAYER_REGEN_ENABLED" then
+        UpdateButtonState(MountButton, event)
+    end
+
 end)
 
 
