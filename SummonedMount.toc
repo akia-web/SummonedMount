@@ -4,8 +4,9 @@
 ## Notes: Summons your mounts depending on the environment (terrestrial, flying or aquatic) based on either all your mounts or those in your favorites 
 ## OptionalDeps: LibSharedMedia-3.0, LibDataBroker-1.1, LibDBIcon-1.0, Ace3
 ## Version: 1.1.1
-## SavedVariables: SummonedMountDB
+## SavedVariables: SummonedMountDB, BunniesDB
 
+icon.lua
 configDB.lua
 frame.lua
 function.lua

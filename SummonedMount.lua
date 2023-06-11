@@ -129,6 +129,7 @@ loginFrame:SetScript("OnEvent", function(self, event, ...)
         selectedOptionMount = SummonedMount.db.profile.selectOption
         buttonPosition = SummonedMount.db.profile.buttonPosition
         iconeSize = SummonedMount.db.profile.iconeSize
+        choiceIcone = SummonedMount.db.profile.icone
 
         MountButton = createButtonFrame()
         
@@ -155,7 +156,14 @@ loginFrame:SetScript("OnEvent", function(self, event, ...)
             elseif IsShiftKeyDown() and button == "LeftButton" then
                 local newOption  = selectedOptionMount == "all" and "favorites" or "all"
                 SummonedMount:SetSelectOption(nil, newOption)
-            else
+                
+                if newOption == "all" then
+                MountButton:SetNormalTexture(choiceIcone)
+                end
+
+            elseif IsAltKeyDown() and button == "LeftButton" then
+                createFrameContainerIcone()
+        else
                 if button == "MiddleButton" then
                     C_MountJournal.SummonByID(460)
                     mountIdInvoqueLast = 460
@@ -165,12 +173,65 @@ loginFrame:SetScript("OnEvent", function(self, event, ...)
                 getMount(button, selectedOptionMount)
             end
         end)
+
+        local numberInstance = GetNumSavedInstances()
+        print(numberInstance)
+        for i = 1, numberInstance do
+            local name, lockoutId, reset, difficultyId, locked, extended, instanceIDMostSig, isRaid, maxPlayers, difficultyName, numEncounters, encounterProgress, extendDisabled, instanceId = GetSavedInstanceInfo(i)
+
+            if locked  then
+                local time;
+                if reset < 86400 then
+                    time = math.floor(reset/3600).."heures"
+                else 
+                    time = math.floor(reset/86400).."jours "
+                end
+
+                print("Instance déjà faite cette semaine :".. name.."reset : ".. time )
+            end
+        end
+
+        print(C_QuestLog.IsQuestFlaggedCompleted(50599) )
+        -- local info = C_MountJournal.GetMountInfoByID(69)
+        -- print(info)
+
+        local name, spellID, icon, isActive, isUsable, sourceType, isFavorite, isFactionSpecific, faction, shouldHideOnChar, isCollected, mountID, isForDragonriding = C_MountJournal.GetMountInfoByID(69)
+        print("Nom de la monture :", name)
+        print("Est collectée :", isCollected)
+
+
+
+        local numMounts = C_MountJournal.GetNumDisplayedMounts()
+        for i = 1, numMounts do
+            local name, spellID, icon, isActive, isUsable, sourceType, isFavorite, isFactionSpecific, faction, shouldHideOnChar, isCollected, mountID, isForDragonriding = C_MountJournal.GetDisplayedMountInfo(i)
+            
+         local creatureDisplayInfoID, description, source, isSelfMount, mountTypeID,
+         uiModelSceneID, animID, spellVisualKitID, disablePlayerMountPreview= C_MountJournal.GetMountInfoExtraByID(mountID)
+            
+            
+            if not isCollected and sourceType ==1 then
+                print("name : ".. name.."type: "..source.Butin )
+            end
+        end
+
+
+       
+
+
+
+
+
+
+
+
     end
     if event == "PLAYER_REGEN_DISABLED" or event == "PLAYER_REGEN_ENABLED" then
         UpdateButtonState(MountButton, event)
     end
 
 end)
+
+
 
 
 

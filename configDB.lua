@@ -1,4 +1,6 @@
 
+
+
 SummonedMount = LibStub("AceAddon-3.0"):NewAddon("SummonedMount", "AceConsole-3.0", "AceEvent-3.0")
 local AC = LibStub("AceConfig-3.0")
 local ACD = LibStub("AceConfigDialog-3.0")
@@ -7,7 +9,10 @@ defaults = {
 	profile = {
 		selectOption = "favorites",
 		buttonPosition= {point= "CENTER", relativePoint="CENTER",  x = 0, y = 0},
-		iconeSize = 35
+		iconeSize = 35,
+		icone =  "Interface\\Icons\\spell_Nature_Swiftness",
+		rafraichirOptions = { ... },
+		icone4="spell_Nature_Swiftness"
 	},
 }
 
@@ -131,7 +136,21 @@ local options = {
 			name = GREEN_FONT_COLOR_CODE.. "Clic + MAJ : |cFFFFFF00 Change la liste de monture (favoris ou toutes).",
 			cmdHidden = true
 		},
-	
+		ghostDescription7 = {
+			order=17,
+			type = "description",
+			name = "   ",
+			cmdHidden = true
+		},
+		confAltClick = {
+			order=18,
+			fontSize = "medium",
+			type = "description",
+			name = GREEN_FONT_COLOR_CODE.. "Clic Gauche + ALT : |cFFFFFF00 Choisir une icone pour toutes les montures.",
+			cmdHidden = true
+		},
+		
+
 	},
 }
 
@@ -172,4 +191,21 @@ function SummonedMount:SetTailleIcone(info,value)
 	end
 
 end
+function SummonedMount:GetIcone()
+	local iconName = self.db.profile.icone.image
+	return tostring(iconName)
+end
+
+function SummonedMount:SetIcone(value)
+	self.db.profile.icone = "Interface\\Icons\\" .. value
+	choiceIcone = self.db.profile.icone
+	if selectedOptionMount == "all" then
+		MountButton:SetNormalTexture(choiceIcone)
+	end
+end
+
+
+
+
+
 
