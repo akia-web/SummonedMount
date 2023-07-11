@@ -1,5 +1,5 @@
 
-
+local _,core = ...
 
 SummonedMount = LibStub("AceAddon-3.0"):NewAddon("SummonedMount", "AceConsole-3.0", "AceEvent-3.0")
 local AC = LibStub("AceConfig-3.0")
@@ -171,9 +171,9 @@ function SummonedMount:SetSelectOption(info, value)
 	selectedOptionMount = value
 	self.db.profile.selectOption = value
 	if value == "all" then
-		MountButton:SetNormalTexture("Interface\\Icons\\Spell_Nature_Swiftness")
+		core.MountButton:SetNormalTexture("Interface\\Icons\\Spell_Nature_Swiftness")
 		else
-			MountButton:SetNormalTexture("Interface\\Icons\\Achievement_guildperk_mountup")
+			core.MountButton:SetNormalTexture("Interface\\Icons\\Achievement_guildperk_mountup")
 		end
 end
 function SummonedMount:GetTailleIcone(info)
@@ -184,7 +184,7 @@ function SummonedMount:SetTailleIcone(info,value)
 
 	if tonumber(value) then
 		self.db.profile.iconeSize = value
-		MountButton:SetSize(value,value)
+		core.MountButton:SetSize(value,value)
 	else
 		-- La valeur saisie n'est pas un chiffre, vous pouvez afficher un message d'erreur ou prendre une autre action
 		print("Veuillez saisir un chiffre valide.")
@@ -200,7 +200,7 @@ function SummonedMount:SetIcone(value)
 	self.db.profile.icone = "Interface\\Icons\\" .. value
 	choiceIcone = self.db.profile.icone
 	if selectedOptionMount == "all" then
-		MountButton:SetNormalTexture(choiceIcone)
+		core.MountButton:SetNormalTexture(choiceIcone)
 	end
 end
 

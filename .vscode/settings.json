@@ -8,7 +8,6 @@
         "selectedOptionMount",
         "buttonPosition",
         "frame",
-        "loginFrame",
         "createButtonFrame",
         "getListMountInvocable",
         "getRandomMount",

@@ -1,15 +1,28 @@
-loginFrame = CreateFrame("Frame")
-loginFrame:RegisterEvent("PLAYER_LOGIN")
-loginFrame:RegisterEvent("PLAYER_REGEN_DISABLED") -- Événement déclenché lorsque le joueur entre en combat
-loginFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
+local playerClass = select(2, UnitClass("player"))
 
 function createButtonFrame() 
-    local MountButton = CreateFrame("Button", "MyDraggableButton", UIParent, "UIPanelButtonTemplate")
+    local MountButton = CreateFrame("Button", "MyDraggableButton", UIParent, "SecureActionButtonTemplate")
+    -- local MountButton = CreateFrame("Button", "MyDraggableButton", UIParent, "UIPanelButtonTemplate")
+    
     MountButton:SetMovable(true)
     MountButton:EnableMouse(true)
     MountButton:RegisterForDrag("LeftButton")
     MountButton:SetPoint(buttonPosition.point, UIParent,buttonPosition.relativePoint, buttonPosition.x , buttonPosition.y)
     MountButton:SetSize(iconeSize, iconeSize)
+
+    if playerClass == "DRUID" then
+        MountButton:RegisterForClicks("LeftButtonDown","RightButtonDown")
+       local macroIndex = GetMacroIndexByName('akiachangeform')
+       if macroIndex == 0 then
+        CreateMacro('akiachangeform', 1394966, '/cancelform')
+        macroIndex = GetMacroIndexByName('akiachangeform')
+       end
+        
+        MountButton:SetAttribute("type", "macro")
+            -- f:SetAttribute("macro", "/run C_Garrison.StartMission(missionID):onclick" )
+        MountButton:SetAttribute("macro",macroIndex)
+    end
+
     if selectedOptionMount == "all" then
     MountButton:SetNormalTexture(choiceIcone)
     else
@@ -87,7 +100,6 @@ local function CreateIconTexture(parent, iconName)
 end
 
 local function PopulateIconSelector()
-	print("lala")
     local rowIndex, colIndex = 0, 0
     for _, item in ipairs(iconNames) do
         local button = CreateIconTexture(scrollChild, item)

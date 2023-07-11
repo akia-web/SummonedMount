@@ -8,8 +8,8 @@
 
 icon.lua
 configDB.lua
+service.lua
 frame.lua
-function.lua
 
 SummonedMount.lua
 libs\Ace3\LibStub\LibStub.lua

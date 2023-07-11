@@ -1,7 +1,16 @@
 local NamePlayer = UnitName("player")
 local LevelPlayer = UnitLevel("player")
 print("hello ".. NamePlayer.." niveau ".. LevelPlayer)
-mountIdInvoqueLast = 0
+local playerClass = select(2, UnitClass("player"))
+local _,core = ...;
+local mountIdInvoqueLast = 0
+
+local loginFrame = CreateFrame("Frame")
+loginFrame:RegisterEvent("PLAYER_LOGIN")
+loginFrame:RegisterEvent("PLAYER_REGEN_DISABLED") -- Événement déclenché lorsque le joueur entre en combat
+loginFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
+loginFrame:RegisterEvent("PLAYER_STARTED_MOVING")
+loginFrame:RegisterEvent("PLAYER_STOPPED_MOVING")
 
 -- Fonction pour récupérer les types de montures
 local function GetTypeMounts(mountID)
@@ -105,6 +114,13 @@ local function getMount(paramButton, selectedOptionMount)
             C_MountJournal.SummonByID(idMountNumber)
             mountIdInvoqueLast = idMountNumber
         elseif not IsMounted() then
+         
+            if playerClass == "DRUID" then
+
+        
+                        
+                -- SendChatMessage("/cancelform", "SAY")
+            end
             C_MountJournal.SummonByID(idMountNumber)
             mountIdInvoqueLast = idMountNumber
         end
@@ -112,8 +128,8 @@ local function getMount(paramButton, selectedOptionMount)
     end
 end
 
-local function UpdateButtonState(button, event)
-    if event == "PLAYER_REGEN_DISABLED" then
+function UpdateButtonState(button, event)
+    if event == "PLAYER_REGEN_DISABLED"  or event == "interieur" then 
         button:GetNormalTexture():SetDesaturated(true)
         button:Disable()
     else
@@ -122,25 +138,36 @@ local function UpdateButtonState(button, event)
     end
 end
 
-loginFrame:SetScript("OnEvent", function(self, event, ...)
+local function UpdateMountAvailability()
+    if not UnitAffectingCombat('player')then
+        if IsIndoors() then
+            UpdateButtonState(core.MountButton, "interieur")
+        else
+            UpdateButtonState(core.MountButton, "exterieur")
+        end
+    end
+   
+end
 
+local ticker
+loginFrame:SetScript("OnEvent", function(self, event, ...)
     
     if event == "PLAYER_LOGIN" then
         selectedOptionMount = SummonedMount.db.profile.selectOption
         buttonPosition = SummonedMount.db.profile.buttonPosition
         iconeSize = SummonedMount.db.profile.iconeSize
         choiceIcone = SummonedMount.db.profile.icone
+        core.MountButton = createButtonFrame()
+     
 
-        MountButton = createButtonFrame()
-        
-        MountButton:SetScript("OnDragStart", function(self)
+        core.MountButton:SetScript("OnDragStart", function(self)
             if IsControlKeyDown() then
                 self:StartMoving()
             end
         end)
         
 
-        MountButton:SetScript("OnDragStop", function(self)
+        core.MountButton:SetScript("OnDragStop", function(self)
             self:StopMovingOrSizing()
             local point, _, relativePoint, x, y = self:GetPoint()
             local buttonPosition = SummonedMount.db.profile.buttonPosition
@@ -151,14 +178,14 @@ loginFrame:SetScript("OnEvent", function(self, event, ...)
             SummonedMount.db.profile.buttonPosition = buttonPosition
         end)
 
-        MountButton:SetScript("OnMouseDown", function(self, button)
+        core.MountButton:SetScript("OnMouseDown", function(self, button)
             if IsControlKeyDown()then
             elseif IsShiftKeyDown() and button == "LeftButton" then
                 local newOption  = selectedOptionMount == "all" and "favorites" or "all"
                 SummonedMount:SetSelectOption(nil, newOption)
                 
                 if newOption == "all" then
-                MountButton:SetNormalTexture(choiceIcone)
+                    core.MountButton:SetNormalTexture(choiceIcone)
                 end
 
             elseif IsAltKeyDown() and button == "LeftButton" then
@@ -169,64 +196,31 @@ loginFrame:SetScript("OnEvent", function(self, event, ...)
                     mountIdInvoqueLast = 460
                     return
                 end
-            
-                getMount(button, selectedOptionMount)
+
+                    C_Timer.After(0.1, function ()
+                        getMount(button, selectedOptionMount)
+                    end )
+
+
             end
         end)
 
-        local numberInstance = GetNumSavedInstances()
-        print(numberInstance)
-        for i = 1, numberInstance do
-            local name, lockoutId, reset, difficultyId, locked, extended, instanceIDMostSig, isRaid, maxPlayers, difficultyName, numEncounters, encounterProgress, extendDisabled, instanceId = GetSavedInstanceInfo(i)
-
-            if locked  then
-                local time;
-                if reset < 86400 then
-                    time = math.floor(reset/3600).."heures"
-                else 
-                    time = math.floor(reset/86400).."jours "
-                end
-
-                print("Instance déjà faite cette semaine :".. name.."reset : ".. time )
-            end
-        end
-
-        print(C_QuestLog.IsQuestFlaggedCompleted(50599) )
-        -- local info = C_MountJournal.GetMountInfoByID(69)
-        -- print(info)
-
-        local name, spellID, icon, isActive, isUsable, sourceType, isFavorite, isFactionSpecific, faction, shouldHideOnChar, isCollected, mountID, isForDragonriding = C_MountJournal.GetMountInfoByID(69)
-        print("Nom de la monture :", name)
-        print("Est collectée :", isCollected)
-
-
-
-        local numMounts = C_MountJournal.GetNumDisplayedMounts()
-        for i = 1, numMounts do
-            local name, spellID, icon, isActive, isUsable, sourceType, isFavorite, isFactionSpecific, faction, shouldHideOnChar, isCollected, mountID, isForDragonriding = C_MountJournal.GetDisplayedMountInfo(i)
-            
-         local creatureDisplayInfoID, description, source, isSelfMount, mountTypeID,
-         uiModelSceneID, animID, spellVisualKitID, disablePlayerMountPreview= C_MountJournal.GetMountInfoExtraByID(mountID)
-            
-            
-            if not isCollected and sourceType ==1 then
-                print("name : ".. name.."type: "..source.Butin )
-            end
-        end
-
-
-       
-
-
-
-
-
-
-
-
     end
-    if event == "PLAYER_REGEN_DISABLED" or event == "PLAYER_REGEN_ENABLED" then
-        UpdateButtonState(MountButton, event)
+        UpdateMountAvailability() -- Effectuer une verification a la connexion
+    
+    if event == "PLAYER_STARTED_MOVING" then
+        -- Démarrer le ticker lorsque le joueur commence à se déplacer
+        ticker= C_Timer.NewTicker(1, UpdateMountAvailability)
+    end
+
+    if event == "PLAYER_STOPPED_MOVING" then
+        -- Arrêter le ticker lorsque le joueur s'arrête de bouger
+        ticker:Cancel()
+        UpdateMountAvailability() -- Effectuer une dernière vérification
+    end
+
+    if event == "PLAYER_REGEN_ENABLED" or event == "PLAYER_REGEN_DISABLED" then
+       UpdateButtonState(core.MountButton, event)
     end
 
 end)
