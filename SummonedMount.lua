@@ -83,7 +83,14 @@ local function getMount(paramButton, selectedOptionMount)
             elseif  IsAdvancedFlyableArea() then
                 param = "dragonriding"
             elseif IsFlyableArea() then
-                param = "Volante"
+                local expertCavalier =  IsPlayerSpell(34090)
+                local maitreCavalier = IsPlayerSpell(90265)
+                if expertCavalier  or maitreCavalier then
+                    param = "Volante"
+                else
+                    param  = "terrestre"
+                end
+                
             else
                 param = "terrestre"
             end
@@ -115,12 +122,6 @@ local function getMount(paramButton, selectedOptionMount)
             mountIdInvoqueLast = idMountNumber
         elseif not IsMounted() then
          
-            if playerClass == "DRUID" then
-
-        
-                        
-                -- SendChatMessage("/cancelform", "SAY")
-            end
             C_MountJournal.SummonByID(idMountNumber)
             mountIdInvoqueLast = idMountNumber
         end
@@ -191,8 +192,33 @@ loginFrame:SetScript("OnEvent", function(self, event, ...)
             elseif IsAltKeyDown() and button == "LeftButton" then
                 createFrameContainerIcone()
         else
+            local playerClass = select(2, UnitClass("player"))
+
+            if playerClass == "DRUID" then
+                core.MountButton:RegisterForClicks("LeftButtonDown","RightButtonDown", "MiddleButtonDown")
+               local macroIndex = GetMacroIndexByName('akiachangeform')
+
+               if macroIndex == 0 then
+                CreateMacro('akiachangeform', 1394966, '/cancelform')
+                macroIndex = GetMacroIndexByName('akiachangeform')
+               end
+
+               local formeID = GetShapeshiftFormID()
+               
+               if formeID == nil or (formeID >= 31 and formeID <= 34) then
+                core.MountButton:SetAttribute("type","click")  
+                core.MountButton:SetAttribute("macro",nil)
+                else
+                    core.MountButton:SetAttribute("type", "macro")
+                    core.MountButton:SetAttribute("macro",macroIndex)
+                end
+             
+            end
+
                 if button == "MiddleButton" then
-                    C_MountJournal.SummonByID(460)
+                    C_Timer.After(0.1, function ()
+                        C_MountJournal.SummonByID(460)
+                    end )
                     mountIdInvoqueLast = 460
                     return
                 end
@@ -200,7 +226,6 @@ loginFrame:SetScript("OnEvent", function(self, event, ...)
                     C_Timer.After(0.1, function ()
                         getMount(button, selectedOptionMount)
                     end )
-
 
             end
         end)

@@ -1,4 +1,4 @@
-local playerClass = select(2, UnitClass("player"))
+
 
 function createButtonFrame() 
     local MountButton = CreateFrame("Button", "MyDraggableButton", UIParent, "SecureActionButtonTemplate")
@@ -10,18 +10,7 @@ function createButtonFrame()
     MountButton:SetPoint(buttonPosition.point, UIParent,buttonPosition.relativePoint, buttonPosition.x , buttonPosition.y)
     MountButton:SetSize(iconeSize, iconeSize)
 
-    if playerClass == "DRUID" then
-        MountButton:RegisterForClicks("LeftButtonDown","RightButtonDown")
-       local macroIndex = GetMacroIndexByName('akiachangeform')
-       if macroIndex == 0 then
-        CreateMacro('akiachangeform', 1394966, '/cancelform')
-        macroIndex = GetMacroIndexByName('akiachangeform')
-       end
-        
-        MountButton:SetAttribute("type", "macro")
-            -- f:SetAttribute("macro", "/run C_Garrison.StartMission(missionID):onclick" )
-        MountButton:SetAttribute("macro",macroIndex)
-    end
+
 
     if selectedOptionMount == "all" then
     MountButton:SetNormalTexture(choiceIcone)
