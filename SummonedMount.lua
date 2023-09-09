@@ -205,7 +205,7 @@ loginFrame:SetScript("OnEvent", function(self, event, ...)
 
                local formeID = GetShapeshiftFormID()
                print(formeID)
-               if formeID == nil or (formeID >= 31 and formeID <= 34) then
+               if formeID == nil or (formeID >= 31 and formeID <= 35) then
                 core.MountButton:SetAttribute("type","click")  
                 core.MountButton:SetAttribute("macro",nil)
                 else
