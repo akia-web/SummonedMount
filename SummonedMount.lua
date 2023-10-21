@@ -181,6 +181,13 @@ loginFrame:SetScript("OnEvent", function(self, event, ...)
 
         core.MountButton:SetScript("OnMouseDown", function(self, button)
             if IsControlKeyDown()then
+                if button == "MiddleButton" then
+                    C_Timer.After(0.1, function ()
+                            C_MountJournal.SummonByID(460)
+                        end )
+                        mountIdInvoqueLast = 460
+                        return
+                end
             elseif IsShiftKeyDown() and button == "LeftButton" then
                 local newOption  = selectedOptionMount == "all" and "favorites" or "all"
                 SummonedMount:SetSelectOption(nil, newOption)
@@ -191,43 +198,49 @@ loginFrame:SetScript("OnEvent", function(self, event, ...)
 
             elseif IsAltKeyDown() and button == "LeftButton" then
                 createFrameContainerIcone()
-        else
-            local playerClass = select(2, UnitClass("player"))
+            else
+                local playerClass = select(2, UnitClass("player"))
 
-            if playerClass == "DRUID" then
-                core.MountButton:RegisterForClicks("LeftButtonDown","RightButtonDown", "MiddleButtonDown")
-               local macroIndex = GetMacroIndexByName('akiachangeform')
+                if playerClass == "DRUID" then
+                    core.MountButton:RegisterForClicks("LeftButtonDown","RightButtonDown", "MiddleButtonDown")
+                local macroIndex = GetMacroIndexByName('akiachangeform')
 
-               if macroIndex == 0 then
-                CreateMacro('akiachangeform', 1394966, '/cancelform')
-                macroIndex = GetMacroIndexByName('akiachangeform')
-               end
-
-               local formeID = GetShapeshiftFormID()
-               print(formeID)
-               if formeID == nil or (formeID >= 31 and formeID <= 35) then
-                core.MountButton:SetAttribute("type","click")  
-                core.MountButton:SetAttribute("macro",nil)
-                else
-                    core.MountButton:SetAttribute("type", "macro")
-                    core.MountButton:SetAttribute("macro",macroIndex)
-                end
-             
-            end
-
-                if button == "MiddleButton" then
-                    C_Timer.After(0.1, function ()
-                        C_MountJournal.SummonByID(460)
-                    end )
-                    mountIdInvoqueLast = 460
-                    return
+                if macroIndex == 0 then
+                    CreateMacro('akiachangeform', 1394966, '/cancelform')
+                    macroIndex = GetMacroIndexByName('akiachangeform')
                 end
 
-                    C_Timer.After(0.1, function ()
-                        getMount(button, selectedOptionMount)
-                    end )
+                local formeID = GetShapeshiftFormID()
+                print(formeID)
+                if formeID == nil or (formeID >= 31 and formeID <= 35) then
+                    core.MountButton:SetAttribute("type","click")  
+                    core.MountButton:SetAttribute("macro",nil)
+                    else
+                        core.MountButton:SetAttribute("type", "macro")
+                        core.MountButton:SetAttribute("macro",macroIndex)
+                    end
+                
+                end
 
-            end
+                    if button == "MiddleButton" then
+                        Dismount()
+                        local time = 0.1
+
+                        -- ne remount pas sur le balais si yack
+                        if mountIdInvoqueLast == 460 then
+                            time = 0.5
+                        end
+                        C_Timer.After(time, function ()
+                            C_MountJournal.SummonByID(1799)
+                        end )
+                        
+                    end
+
+                        C_Timer.After(0.1, function ()
+                            getMount(button, selectedOptionMount)
+                        end )
+
+                end
         end)
 
     end
