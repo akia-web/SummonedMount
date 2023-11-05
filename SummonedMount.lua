@@ -224,15 +224,21 @@ loginFrame:SetScript("OnEvent", function(self, event, ...)
 
                     if button == "MiddleButton" then
                         Dismount()
-                        local time = 0.1
+                        -------- pour le balais halloween-----------
+                        -- local time = 0.1
 
-                        -- ne remount pas sur le balais si yack
-                        if mountIdInvoqueLast == 460 then
-                            time = 0.5
-                        end
-                        C_Timer.After(time, function ()
-                            C_MountJournal.SummonByID(1799)
+                        -- -- ne remount pas sur le balais si yack
+                        -- if mountIdInvoqueLast == 460 then
+                        --     time = 0.5
+                        -- end
+                        -- C_Timer.After(time, function ()
+                        --     C_MountJournal.SummonByID(1799)
+                        -- end )
+                        C_Timer.After(0.1, function ()
+                            C_MountJournal.SummonByID(460)
                         end )
+                        mountIdInvoqueLast = 460
+                        return
                         
                     end
 
