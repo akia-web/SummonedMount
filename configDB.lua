@@ -1,13 +1,15 @@
 
 local _,core = ...
+core.SaveOptions = {}
+core.Functions = {}
 
-SummonedMount = LibStub("AceAddon-3.0"):NewAddon("SummonedMount", "AceConsole-3.0", "AceEvent-3.0")
+local SummonedMount = LibStub("AceAddon-3.0"):NewAddon("SummonedMount", "AceConsole-3.0", "AceEvent-3.0")
 local AC = LibStub("AceConfig-3.0")
 local ACD = LibStub("AceConfigDialog-3.0")
 
-defaults = {
+local defaults = {
 	profile = {
-		selectOption = "favorites",
+		selectOption = "all",
 		buttonPosition= {point= "CENTER", relativePoint="CENTER",  x = 0, y = 0},
 		iconeSize = 35,
 		icone =  "Interface\\Icons\\spell_Nature_Swiftness",
@@ -149,26 +151,28 @@ local options = {
 			name = GREEN_FONT_COLOR_CODE.. "Clic Gauche + ALT : |cFFFFFF00 Choisir une icone pour toutes les montures.",
 			cmdHidden = true
 		},
-		
-
 	},
 }
-
-
 
 function SummonedMount:OnInitialize()
 	self.db = LibStub("AceDB-3.0"):New("SummonedMountDB", defaults, true)
 	AC:RegisterOptionsTable("SummonedMount_options", options)
-	self.optionsFrame = ACD:AddToBlizOptions("SummonedMount_options", "Summoned Mount")
+	self.optionsFrame = ACD:AddToBlizOptions("SummonedMount_options", "SummonedMount")
+	core.selectedOptionMount = SummonedMount.db.profile.selectOption
+	core.buttonPosition = SummonedMount.db.profile.buttonPosition
+	core.iconeSize = SummonedMount.db.profile.iconeSize
+	core.choiceIcone = SummonedMount.db.profile.icone
+	core.selectedOptionMount = SummonedMount.db.profile.selectOption
 end
 
 
+-------------Select Option --------------------
 function SummonedMount:GetSelectOption(info)
 	return self.db.profile.selectOption
 end
 
-function SummonedMount:SetSelectOption(info, value)
-	selectedOptionMount = value
+function SummonedMount:SetSelectOption(value)
+	core.selectedOptionMount = value
 	self.db.profile.selectOption = value
 	if value == "all" then
 		core.MountButton:SetNormalTexture("Interface\\Icons\\Spell_Nature_Swiftness")
@@ -176,6 +180,11 @@ function SummonedMount:SetSelectOption(info, value)
 			core.MountButton:SetNormalTexture("Interface\\Icons\\Achievement_guildperk_mountup")
 		end
 end
+
+function core.SaveOptions.ListMount(value)
+	SummonedMount:SetSelectOption(value)
+end
+-------------Taille Icon --------------------
 function SummonedMount:GetTailleIcone(info)
 	return self.db.profile.iconeSize
 end
@@ -191,6 +200,8 @@ function SummonedMount:SetTailleIcone(info,value)
 	end
 
 end
+
+-------------Icon--------------------
 function SummonedMount:GetIcone()
 	local iconName = self.db.profile.icone.image
 	return tostring(iconName)
@@ -198,11 +209,34 @@ end
 
 function SummonedMount:SetIcone(value)
 	self.db.profile.icone = "Interface\\Icons\\" .. value
-	choiceIcone = self.db.profile.icone
-	if selectedOptionMount == "all" then
-		core.MountButton:SetNormalTexture(choiceIcone)
+	core.choiceIcone = self.db.profile.icone
+	if core.selectedOptionMount == "all" then
+		core.MountButton:SetNormalTexture(core.choiceIcone)
 	end
 end
+
+function core.SaveOptions.SetIcone( value)
+	SummonedMount:SetIcone(value)
+end
+
+
+-------------Position Button --------------------
+function SummonedMount:SetButtonPosition(value)
+	self.db.profile.buttonPosition = value
+end
+
+function core.SaveOptions.ButtonPosition(value)
+	SummonedMount:SetButtonPosition(value)
+end
+
+function SummonedMount:GetOptionFrame()
+	return self.optionsFrame
+end
+
+function core.getOptionFrame()
+	return SummonedMount:GetOptionFrame()
+end
+
 
 
 
