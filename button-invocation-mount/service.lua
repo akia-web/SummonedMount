@@ -50,11 +50,10 @@ function core.Functions.sortListByParam(tableau, type)
 end
 
 function core.Functions.getRandomMount(tableau)
-    if not #tableau == 0 then
+
         local random = math.random(1, #tableau)
         local mountRandom = tableau[random]['mountID']
         return mountRandom
-    end
 end
 
 function core.Functions.getLeftButtonParams()
