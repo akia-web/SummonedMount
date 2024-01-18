@@ -22,31 +22,39 @@ end
 
 local function scriptOnMouseDown(mountButton)
     mountButton:SetScript("OnMouseDown", function(self, button)
-            if IsControlKeyDown()then
-                core.Functions.getActionControlKeyDown(button)
-            end
 
             if IsShiftKeyDown() and button == "LeftButton" then
                 core.Functions.changeListMount()
+                return
             end
 
             if IsAltKeyDown() and button == "LeftButton" then
                 core.Functions.createFrameContainerIcone()
+                return
             end
 
             core.Functions.playerIsADruid()
 
+            if IsControlKeyDown() and button == "MiddleButton" then
+                core.Functions.getActionControlKeyDown()
+                return
+            end
+
             if button == "MiddleButton" then
                 core.Functions.getActionSimpleMiddleButton()
+                return
                 
             end
+       
 
             if button == "LeftButton" and not core.Functions.hasSpecialKeys() then
                 core.Functions.getActionSimpleLeftButton()
+                return
             end
 
             if button == "RightButton" and not core.Functions.hasSpecialKeys() then
                 core.Functions.getActionSimpleRightButton()
+                return
             end
 
     end)
@@ -59,9 +67,7 @@ function core.Functions.createButtonFrame()
     summonButton:SetMovable(true)
     summonButton:EnableMouse(true)
     summonButton:RegisterForDrag("LeftButton")
-    print('hello')
     summonButton:SetPoint(core.buttonPosition.point, UIParent,core.buttonPosition.relativePoint, core.buttonPosition.x , core.buttonPosition.y)
-    print('lala')
     summonButton:SetSize(core.iconeSize, core.iconeSize)
 
     if core.selectedOptionMount == "all" then

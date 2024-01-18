@@ -1,4 +1,3 @@
-
 local _,core = ...
 core.SaveOptions = {}
 core.Functions = {}
@@ -6,6 +5,9 @@ core.Functions = {}
 local SummonedMount = LibStub("AceAddon-3.0"):NewAddon("SummonedMount", "AceConsole-3.0", "AceEvent-3.0")
 local AC = LibStub("AceConfig-3.0")
 local ACD = LibStub("AceConfigDialog-3.0")
+SummonedMount.Events = CreateFromMixins(EventRegistry)
+SummonedMount.Events:OnLoad()
+SummonedMount.Events:SetUndefinedEventsAllowed(true)
 
 local defaults = {
 	profile = {
@@ -14,9 +16,15 @@ local defaults = {
 		iconeSize = 35,
 		icone =  "Interface\\Icons\\spell_Nature_Swiftness",
 		rafraichirOptions = { ... },
-		icone4="spell_Nature_Swiftness"
+		icone4="spell_Nature_Swiftness",
+		mount1Name=nil,
+		mount1Id=nil,
+		mount2Name=nil,
+		mount2Id=nil
 	},
 }
+
+
 
 local options = {
 	name = "Summoned Mount",
@@ -44,113 +52,146 @@ local options = {
 		tailleIcone = {
 			order=3,
 			type = "input",
-			name = "taille de l'icone",
-			desc = "Change la taille de l'icone",
+			name = core.L['SizeIcon'],
+			desc = "",
 			get = "GetTailleIcone",
 			set = "SetTailleIcone",
 			pattern = "%d",
 		},
-		setskinheader = {
-			order=4,
-			type = "header",
-			name = "Liste des commandes",
-		},
-
 		ghostDescription2 = {
-			order=5,
+			order=4,
 			type = "description",
 			name = "   ",
 			cmdHidden = true
 		},
-
-		confLeftClick = {
-			order=6,
+		mount1 = {
+			order=5,
 			fontSize = "medium",
 			type = "description",
-			name = GREEN_FONT_COLOR_CODE.."Clic gauche"..": ".."|cFFFFFF00 Invoque une monture en fonction de l'environnement",
+			name = function ()return core.ConfigDB:getMount1()end,
 			cmdHidden = true
 		},
-
+		searchMount1 = {
+            order = 6,
+			type = "execute",
+			name= core.L['ChooseMount']..' 1',
+			func = function() core.ConfigDB:openPopupListMount(core.L['Monture']..' 1') end,
+        },
 		ghostDescription3 = {
 			order=7,
 			type = "description",
 			name = "   ",
 			cmdHidden = true
 		},
-		confRightClic = {
+		mount2 = {
 			order=8,
 			fontSize = "medium",
 			type = "description",
-			name = GREEN_FONT_COLOR_CODE.."Clic droit"..": ".."|cFFFFFF00 Invoque une monture sans tenir compte de l'environnement.",
+			name = function ()return core.ConfigDB:getMount2()end,
 			cmdHidden = true
 		},
-		confRightClic2 = {
-			order=9,
-			fontSize = "medium",
-			type = "description",
-			name = "|cFFFFFF00 Elle dépendra de si vous pouvez voler ou non.",
-			cmdHidden = true
-		},
-		confRightClic3 = {
+		searchMount2 = {
+            order = 9,
+			type = "execute",
+			name= core.L['ChooseMount']..' 2',
+			func = function() core.ConfigDB:openPopupListMount(core.L['Monture']..' 2') end,
+        },
+
+		setskinheader = {
 			order=10,
-			fontSize = "medium",
-			type = "description",
-			name = "|cffff8000 À dragonflight si vous êtes dans l'eau elle invoque votre dragon.",
-			cmdHidden = true
+			type = "header",
+			name = core.L['CommandList'],
 		},
+
 		ghostDescription4 = {
 			order=11,
 			type = "description",
 			name = "   ",
 			cmdHidden = true
 		},
-		confMiddleClick = {
+
+		confLeftClick = {
 			order=12,
 			fontSize = "medium",
 			type = "description",
-			name = GREEN_FONT_COLOR_CODE.. "Clic milieu : |cFFFFFF00 Invoque votre monture vendeur.",
+			name = core.greenText(core.L['LeftClick']) .. core.yellowText(core.L['InfoLeftClick']) .. core.orangeText(core.L['MoreInfoLeftClick']),
 			cmdHidden = true
 		},
+
 		ghostDescription5 = {
 			order=13,
 			type = "description",
 			name = "   ",
 			cmdHidden = true
 		},
-		confCtrlClick = {
+		confRightClic = {
 			order=14,
 			fontSize = "medium",
 			type = "description",
-			name = GREEN_FONT_COLOR_CODE.. "Clic + CTRL : |cFFFFFF00 Déplace le bouton.",
+			name = core.greenText(core.L['RightClick'])..core.yellowText(core.L['InfoRightClick']),
 			cmdHidden = true
 		},
-
 		ghostDescription6 = {
 			order=15,
 			type = "description",
 			name = "   ",
 			cmdHidden = true
 		},
-		confMajClick = {
+		confMiddleClick = {
 			order=16,
 			fontSize = "medium",
 			type = "description",
-			name = GREEN_FONT_COLOR_CODE.. "Clic + MAJ : |cFFFFFF00 Change la liste de monture (favoris ou toutes).",
+			name = core.greenText(core.L['MiddleClick'])..core.yellowText(core.L['InfoMiddleClick']),
+			cmdHidden = true
+		},
+		confCtrlMiddleClick = {
+			order=17,
+			fontSize = "medium",
+			type = "description",
+			name = core.greenText(core.L['CTRLMiddleClick'])..core.yellowText(core.L['InfoCTRLMiddleClick']),
 			cmdHidden = true
 		},
 		ghostDescription7 = {
-			order=17,
+			order=18,
+			type = "description",
+			name = "   ",
+			cmdHidden = true
+		},
+		confCtrlClick = {
+			order=19,
+			fontSize = "medium",
+			type = "description",
+			name =  core.greenText(core.L['CtrlClick'])..core.yellowText(core.L['InfoCtrlClick']),
+			cmdHidden = true
+		},
+
+		ghostDescription8 = {
+			order=20,
+			type = "description",
+			name = "   ",
+			cmdHidden = true
+		},
+		confMajClick = {
+			order=21,
+			fontSize = "medium",
+			type = "description",
+			name = core.greenText(core.L['ShiftClick'])..core.yellowText(core.L['InfoShiftClick']),
+			cmdHidden = true
+		},
+		ghostDescription9 = {
+			order=22,
 			type = "description",
 			name = "   ",
 			cmdHidden = true
 		},
 		confAltClick = {
-			order=18,
+			order=23,
 			fontSize = "medium",
 			type = "description",
-			name = GREEN_FONT_COLOR_CODE.. "Clic Gauche + ALT : |cFFFFFF00 Choisir une icone pour toutes les montures.",
+			name = core.greenText(core.L['AltLeftClick'])..core.yellowText(core.L['InfoAltLeftClick']),
 			cmdHidden = true
 		},
+
 	},
 }
 
@@ -163,6 +204,10 @@ function SummonedMount:OnInitialize()
 	core.iconeSize = SummonedMount.db.profile.iconeSize
 	core.choiceIcone = SummonedMount.db.profile.icone
 	core.selectedOptionMount = SummonedMount.db.profile.selectOption
+	core.mount1Name = SummonedMount.db.profile.mount1Name
+	core.mount1Id = SummonedMount.db.profile.mount1Id
+	core.mount2Name = SummonedMount.db.profile.mount2Name
+	core.mount2Id = SummonedMount.db.profile.mount2Id
 end
 
 
@@ -171,7 +216,7 @@ function SummonedMount:GetSelectOption(info)
 	return self.db.profile.selectOption
 end
 
-function SummonedMount:SetSelectOption(value)
+function SummonedMount:SetSelectOption(info,value)
 	core.selectedOptionMount = value
 	self.db.profile.selectOption = value
 	if value == "all" then
@@ -182,7 +227,7 @@ function SummonedMount:SetSelectOption(value)
 end
 
 function core.SaveOptions.ListMount(value)
-	SummonedMount:SetSelectOption(value)
+	SummonedMount:SetSelectOption(nil,value)
 end
 -------------Taille Icon --------------------
 function SummonedMount:GetTailleIcone(info)
@@ -219,6 +264,29 @@ function core.SaveOptions.SetIcone( value)
 	SummonedMount:SetIcone(value)
 end
 
+---------Save selected Mount -----------
+function core.SaveMount1(value)
+	SummonedMount:SetMount1(value)
+end
+
+function core.SaveMount2(value)
+	SummonedMount:SetMount2(value)
+end
+
+function SummonedMount:SetMount1(value)
+	self.db.profile.mount1Name = value['mountName']
+	self.db.profile.mount1Id = value['mountId']
+	core.mount1Name = self.db.profile.mount1Name
+	core.mount1Id = self.db.profile.mount1Id
+end
+
+function SummonedMount:SetMount2(value)
+	self.db.profile.mount2Name = value['mountName']
+	self.db.profile.mount2Id = value['mountId']
+	core.mount2Name = self.db.profile.mount2Name
+	core.mount2Id = self.db.profile.mount2Id
+
+end
 
 -------------Position Button --------------------
 function SummonedMount:SetButtonPosition(value)
@@ -237,9 +305,7 @@ function core.getOptionFrame()
 	return SummonedMount:GetOptionFrame()
 end
 
-
-
-
-
-
-
+function SummonedMount:GetSelectMonture1Option(value)
+end
+function SummonedMount:SetSelectMonture1Option(info,value)
+end

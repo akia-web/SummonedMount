@@ -19,7 +19,12 @@ libs\Ace3\AceConfig-3.0\AceConfig-3.0.xml
 libs\LibDBIcon-1.0\LibDBIcon-1.0.lua
 libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
 
-configDB.lua
+lang\en.lua
+lang\fr.lua
+text.lua
+
+config\buttonChooseMount.lua
+config\configDB2.lua
 icone-personalisation\icon.lua
 icone-personalisation\populate-icons.lua
 icone-personalisation\frame-all-icons.lua

@@ -1,13 +1,13 @@
 local _,core = ...
 
-function core.Functions.getActionControlKeyDown(button)
-    if button == "MiddleButton" then
-        C_Timer.After(0.1, function ()
-                C_MountJournal.SummonByID(460)
-            end )
-            core.mountIdInvoqueLast = 460
-            return
-    end
+function core.Functions.getActionControlKeyDown()
+            Dismount()
+            C_Timer.After(0.2, function ()
+                if core.mount2Id then
+                    C_MountJournal.SummonByID(core.mount2Id)
+                    core.mountIdInvoqueLast = core.mount2Id
+                end 
+        end )
 end
 
 function core.Functions.changeListMount()
@@ -45,21 +45,15 @@ function core.Functions.playerIsADruid()
 end
 
 function core.Functions.getActionSimpleMiddleButton()
-    -------- pour le balais halloween-----------
-    -- local time = 0.1
-
-    -- -- ne remount pas sur le balais si yack
-    -- if core.mountIdInvoqueLast == 460 then
-    --     time = 0.5
-    -- end
-    -- C_Timer.After(time, function ()
-    --     C_MountJournal.SummonByID(1799)
-    -- end )
     Dismount()
-    C_Timer.After(0.1, function ()
-        C_MountJournal.SummonByID(460)
+    C_Timer.After(0.2, function ()
+        if core.mount1Id then
+            C_MountJournal.SummonByID(core.mount1Id)
+            core.mountIdInvoqueLast = core.mount1Id
+            core.mountIdInvoqueLast = core.mount1Id
+        end 
     end )
-    core.mountIdInvoqueLast = 460
+
 end
 
 local function summonMount(param)
@@ -81,6 +75,7 @@ local function summonMount(param)
 
     if #list == 1 then
         idMountNumber = list[1]['mountID']
+    elseif #list == 0 then
     else
         repeat
             idMountNumber = core.Functions.getRandomMount(list)
@@ -91,8 +86,11 @@ local function summonMount(param)
         Dismount()
     end
 
-    C_MountJournal.SummonByID(idMountNumber)
-    core.mountIdInvoqueLast = idMountNumber
+    if idMountNumber ~= ''then
+        C_MountJournal.SummonByID(idMountNumber)
+        core.mountIdInvoqueLast = idMountNumber 
+    end
+
 end
 
 function core.Functions.getActionSimpleLeftButton()

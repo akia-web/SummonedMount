@@ -20,6 +20,8 @@ local function CreateIconTexture(parent, iconName, iconSize, frameAllIcons)
 end
 
 
+
+
 function core.Functions.PopulateIconSelector(scrollChild, iconSize, numColumns, frameAllIcons)
     local rowIndex, colIndex = 0, 0
     for _, item in ipairs(core.iconNames) do
@@ -38,3 +40,4 @@ function core.Functions.PopulateIconSelector(scrollChild, iconSize, numColumns, 
     local scrollChildHeight = numRows * (iconSize + 4)
     scrollChild:SetHeight(scrollChildHeight)
 end
+
