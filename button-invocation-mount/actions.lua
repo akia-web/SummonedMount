@@ -64,9 +64,9 @@ local function summonMount(param)
     if #list == 0 then
         local errorMessage = ''
         if core.selectedOptionMount == 'favorites' then
-            errorMessage  = "Pas de monture de type "..param.." trouvé dans la liste des montures favorites \n Merci de changer de liste en faisant SHIFT + click Gauche ou directement dans les options de l'addon"
+            errorMessage  = core.L['NotMountFound']..' '..param..core.L['InList']
         else
-            errorMessage = "Pas de montures trouvé de type "..param
+            errorMessage = core.L['NotMountFound']..' '..param
         end
       
         UIErrorsFrame:AddMessage(errorMessage, 1.0, 0.1, 0.1, 1.0, UIERRORS_HOLD_TIME);

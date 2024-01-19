@@ -34,11 +34,11 @@ local options = {
 		selectOption = {
 			order=1,
 			type = "select",
-			name = "Liste de montures",
+			name = core.L['MountList'],
 			desc = "Select an option",
 			values = {
-				["all"] = "Toutes mes montures",
-				["favorites"] = "Mes montures favorites",
+				["all"] = core.L['All'],
+				["favorites"] = core.L['FavoriteMounts'],
 			},
 			get = "GetSelectOption",
 			set = "SetSelectOption",

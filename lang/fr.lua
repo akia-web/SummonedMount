@@ -16,7 +16,7 @@ if GetLocale() == "frFR" then
     
     L["InfoLeftClick"]="Invoque une monture en fonction de l'environnement \n"
     L["MoreInfoLeftClick"]="Terrestre si vous ne savez pas voler, aquatique si vous étes dans l'eau, sinon une dragon-riding ou volante"
-    L["InfoMiddleClick"]="Invoque une monture volante ou dragon-riding \n"
+    L["InfoRightClick"]="Invoque une monture volante"
     L["InfoMiddleClick"]="Invoque une monture au choix"
     L["InfoCTRLMiddleClick"]="Invoque une autre monture au choix"
     L["InfoCtrlClick"]="Déplace le bouton d'invocation de monture"
@@ -27,5 +27,10 @@ if GetLocale() == "frFR" then
     L["NotSelectedMount"]="Vous n'avez pas choisi de monture"
     L['ChooseMount']="Selectionner monture"
     L['SearchByName']="Rechercher par nom..."
+    L['NotMountFound']="Pas de montures trouvées de type"
+    L['InList']=" trouvées dans la liste des montures favorites \n Changez la liste en faisant SHIFT + clic gauche sur le bouton ou directement dans les options de l'addon"
+    L['All']="Toutes les montures"
+    L['MountList']="Liste des montures"
+    L['FavoriteMounts']="Mes montures favorites"
     core.L = L
  end

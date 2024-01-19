@@ -79,12 +79,13 @@ function core.Functions.createButtonFrame()
     summonButton:SetScript("OnEnter", function(self)
       GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
       GameTooltip:SetText(
-          GREEN_FONT_COLOR_CODE.."Clic gauche : |cFFFFFF00 dépends de l'environnement.\n"
-        ..GREEN_FONT_COLOR_CODE.."Clic droit : |cFFFFFF00 Ne dépends pas de l'environnement. \n"
-        ..GREEN_FONT_COLOR_CODE.."Clic milieu : |cFFFFFF00 Vendeur. \n"
-        ..GREEN_FONT_COLOR_CODE.."Clic + CTRL : |cFFFFFF00 Déplace le bouton. \n"
-        ..GREEN_FONT_COLOR_CODE.."Clic + MAJ : |cFFFFFF00 Change la liste de monture (favoris ou toutes).\n"
-        ..GREEN_FONT_COLOR_CODE.."Clic Gauche + ALT : |cFFFFFF00 Choisir une icone pour toutes les montures. \n"
+          core.greenText(core.L['LeftClick'])..core.yellowText(core.L['InfoLeftClick'])
+          ..core.greenText(core.L['RightClick'])..core.yellowText(core.L['InfoRightClick'])..'\n'
+          ..core.greenText(core.L['MiddleClick']).. core.yellowText(core.L['InfoMiddleClick'])..'\n'
+          ..core.greenText(core.L['CTRLMiddleClick']).. core.yellowText(core.L['InfoCTRLMiddleClick'])..'\n'
+          ..core.greenText(core.L['CtrlClick']).. core.yellowText(core.L['InfoCtrlClick'])..'\n'
+         ..core.greenText(core.L['ShiftClick']).. core.yellowText(core.L['InfoShiftClick'])..'\n'
+         ..core.greenText(core.L['AltLeftClick']).. core.yellowText(core.L['InfoAltLeftClick'])..'\n'
       )
       GameTooltip:Show()
   end)
