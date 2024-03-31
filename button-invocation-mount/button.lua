@@ -77,9 +77,9 @@ function core.Functions.createButtonFrame()
     end
 
     summonButton:SetScript("OnEnter", function(self)
-      GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+      GameTooltip:SetOwner(UIParent, "ANCHOR_BOTTOMRIGHT")
       GameTooltip:SetText(
-          core.greenText(core.L['LeftClick'])..core.yellowText(core.L['InfoLeftClick'])
+          core.greenText(core.L['LeftClick'])..core.yellowText(core.L['InfoLeftClick'])..'\n'
           ..core.greenText(core.L['RightClick'])..core.yellowText(core.L['InfoRightClick'])..'\n'
           ..core.greenText(core.L['MiddleClick']).. core.yellowText(core.L['InfoMiddleClick'])..'\n'
           ..core.greenText(core.L['CTRLMiddleClick']).. core.yellowText(core.L['InfoCTRLMiddleClick'])..'\n'

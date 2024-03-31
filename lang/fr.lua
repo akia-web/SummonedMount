@@ -14,7 +14,7 @@ if GetLocale() == "frFR" then
     L["CommandList"]="Liste des commandes"
     L["SizeIcon"]="Taille de l'icone"
     
-    L["InfoLeftClick"]="Invoque une monture en fonction de l'environnement \n"
+    L["InfoLeftClick"]="Invoque une monture en fonction de l'environnement"
     L["MoreInfoLeftClick"]="Terrestre si vous ne savez pas voler, aquatique si vous étes dans l'eau, sinon une dragon-riding ou volante"
     L["InfoRightClick"]="Invoque une monture volante"
     L["InfoMiddleClick"]="Invoque une monture au choix"

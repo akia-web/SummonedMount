@@ -120,8 +120,6 @@ local function OnKeyUpHandler(self, key, placeholderLabel, mount)
 	core.scrollFrame:Show()
 end
 
-
-
 function core.ConfigDB:openPopupListMount(mount)
 	
     core.SelectMount.ParentFrame = CreateFrame("Frame", "IconSelectorFrame", UIParent, "UIPanelDialogTemplate")

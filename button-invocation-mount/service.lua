@@ -34,7 +34,6 @@ function core.Functions.getListMountByOption(param)
             end
         end
     end
-
     return mountResult
 end
 

@@ -13,7 +13,7 @@ if GetLocale() ~= "frFR" then
     L["CommandList"]="Command list"
     L["SizeIcon"]="Icon size"
     
-    L["InfoLeftClick"]="Summon a mount depending on the environment\n"
+    L["InfoLeftClick"]="Summon a mount depending on the environment"
     L["MoreInfoLeftClick"]="earthly if you  are unable to fly, aquatic if you are in water, dragon-riding if you can dragon-ride or flying in other cases"
     L["InfoRightClick"]="Summon a flying mount"
     L["InfoMiddleClick"]="Summon a mount of your choice"

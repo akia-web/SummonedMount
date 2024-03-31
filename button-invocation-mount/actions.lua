@@ -58,21 +58,16 @@ end
 
 local function summonMount(param)
     local listmounts  = core.Functions.getListMountByOption(core.selectedOptionMount)
-    local list = core.Functions.sortListByParam(listmounts, param)
+    local list;
     local idMountNumber= ''
+    local playerLevel = UnitLevel('player')
 
-    if #list == 0 then
-        local errorMessage = ''
-        if core.selectedOptionMount == 'favorites' then
-            errorMessage  = core.L['NotMountFound']..' '..param..core.L['InList']
-        else
-            errorMessage = core.L['NotMountFound']..' '..param
-        end
-      
-        UIErrorsFrame:AddMessage(errorMessage, 1.0, 0.1, 0.1, 1.0, UIERRORS_HOLD_TIME);
-        DEFAULT_CHAT_FRAME:AddMessage("|cFFFF0000" .. errorMessage)
+    if playerLevel < 10 then
+        list = listmounts
+    else 
+        list = core.Functions.sortListByParam(listmounts, param)
     end
-
+        
     if #list == 1 then
         idMountNumber = list[1]['mountID']
     elseif #list == 0 then

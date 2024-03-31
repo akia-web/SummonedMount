@@ -16,7 +16,6 @@ local defaults = {
 		iconeSize = 35,
 		icone =  "Interface\\Icons\\spell_Nature_Swiftness",
 		rafraichirOptions = { ... },
-		icone4="spell_Nature_Swiftness",
 		mount1Name=nil,
 		mount1Id=nil,
 		mount2Name=nil,
