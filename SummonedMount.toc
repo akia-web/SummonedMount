@@ -1,9 +1,9 @@
-## Interface: 100206
+## Interface: 110000
 ## Title: SummonedMount
 ## Author: Charline
 ## Notes: Summons your mounts depending on the environment (terrestrial, flying or aquatic) based on either all your mounts or those in your favorites 
 ## OptionalDeps: LibSharedMedia-3.0, LibDataBroker-1.1, LibDBIcon-1.0, Ace3
-## Version: 1.1.3
+## Version: 2.0.0
 ## SavedVariables: SummonedMountDB, BunniesDB, SUMMONEDMOUNTMMDB
 
 
@@ -23,8 +23,10 @@ lang\en.lua
 lang\fr.lua
 text.lua
 
-config\buttonChooseMount.lua
 config\configDB2.lua
+minimap-button.lua
+config\buttonChooseMount.lua
+
 icone-personalisation\icon.lua
 icone-personalisation\populate-icons.lua
 icone-personalisation\frame-all-icons.lua
@@ -34,6 +36,6 @@ button-invocation-mount\actions.lua
 button-invocation-mount\button.lua
 
 SummonedMount.lua
-minimap-button.lua
+
 
 

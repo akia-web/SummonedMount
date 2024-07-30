@@ -1,4 +1,4 @@
-local _,core = ...;
+local _, core = ...;
 
 function core.greenText(text)
     return '|cFF00FF00' .. text .. '|r '

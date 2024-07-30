@@ -1,4 +1,4 @@
-local _,core = ...
+local _, core = ...
 
 local function CreateIconTexture(parent, iconName, iconSize, frameAllIcons)
     local button = CreateFrame("Button", nil, parent)
@@ -7,7 +7,7 @@ local function CreateIconTexture(parent, iconName, iconSize, frameAllIcons)
     button.texture = button:CreateTexture(nil, "ARTWORK")
     button.texture:SetAllPoints()
 
-    local iconTexture = "Interface\\Icons\\"..iconName
+    local iconTexture = "Interface\\Icons\\" .. iconName
     if iconTexture then
         button.texture:SetTexture(iconTexture)
     end
@@ -18,9 +18,6 @@ local function CreateIconTexture(parent, iconName, iconSize, frameAllIcons)
     end)
     return button
 end
-
-
-
 
 function core.Functions.PopulateIconSelector(scrollChild, iconSize, numColumns, frameAllIcons)
     local rowIndex, colIndex = 0, 0

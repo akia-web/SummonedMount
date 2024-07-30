@@ -1,5 +1,5 @@
-local _,core = ...;
-core.iconNames={
+local _, core = ...;
+core.iconNames = {
     "inv_nightbane2mount",
     "inv_faeriedragonmount",
     "inv_brontosaurusmount",
