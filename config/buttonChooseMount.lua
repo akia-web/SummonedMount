@@ -34,8 +34,9 @@ local function CreateIconTextureSelectMount(parent, iconName, idMount, iconSize,
 
     button.texture = button:CreateTexture(nil, "ARTWORK")
     button.texture:SetAllPoints()
+    iconID, originalIconID = C_Spell.GetSpellTexture(iconName)
 
-    button:SetNormalTexture(GetSpellTexture(iconName))
+    button:SetNormalTexture(iconID)
 
     button:SetScript("OnClick", function()
 
