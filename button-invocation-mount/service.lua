@@ -67,6 +67,15 @@ function core.Functions.getLeftButtonParams()
 end
 
 function core.Functions.getRightButtonParams()
+
+    local expertCavalier = IsPlayerSpell(34090)
+    local maitreCavalier = IsPlayerSpell(90265)
+
+    if IsSwimming() and (expertCavalier or maitreCavalier) then
+        return "volante"
+
+    end
+
     return "terrestre"
 end
 
