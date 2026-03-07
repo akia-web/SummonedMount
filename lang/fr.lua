@@ -15,8 +15,8 @@ if GetLocale() == "frFR" then
     L["SizeIcon"] = "Taille de l'icone"
 
     L["InfoLeftClick"] = "Invoque une monture volante "
-    L["MoreInfoLeftClick"] = "ou terrestre si vous ne savez pas voler, aquatique si vous étes dans l'eau"
-    L["InfoRightClick"] = "Invoque une monture terrestre"
+    L["MoreInfoLeftClick"] = "ou terrestre si vous ne savez pas voler"
+    L["InfoRightClick"] = "Invoque une monture terrestre ou aquatique si vous êtes dans l'eau"
     L["InfoMiddleClick"] = "Invoque une monture au choix"
     L["InfoCTRLMiddleClick"] = "Invoque une autre monture au choix"
     L["InfoCtrlClick"] = "Déplace le bouton d'invocation de monture"

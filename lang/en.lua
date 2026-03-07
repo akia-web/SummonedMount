@@ -14,8 +14,8 @@ if GetLocale() ~= "frFR" then
     L["SizeIcon"] = "Icon size"
 
     L["InfoLeftClick"] = "Summon a flying mount"
-    L["MoreInfoLeftClick"] = "or earthly if you  are unable to fly, aquatic if you are in water"
-    L["InfoRightClick"] = "Summon a earthly mount"
+    L["MoreInfoLeftClick"] = "or earthly if you  are unable to fly"
+    L["InfoRightClick"] = "Summon a earthly or aquatic mount"
     L["InfoMiddleClick"] = "Summon a mount of your choice"
     L["InfoCTRLMiddleClick"] = "Summon an other mount of your choice"
     L["InfoCtrlClick"] = "Moves summon button"

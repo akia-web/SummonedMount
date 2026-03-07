@@ -19,8 +19,9 @@ function UpdateButtonState(button, event)
 end
 
 local function UpdateMountAvailability()
+    local mountIDs = C_MountJournal.GetMountIDs()
     if not UnitAffectingCombat('player') then
-        if IsIndoors() then
+        if not C_MountJournal.GetMountUsabilityByID(mountIDs[1],true)  then
             UpdateButtonState(core.MountButton, "interieur")
         else
             UpdateButtonState(core.MountButton, "exterieur")

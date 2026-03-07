@@ -49,10 +49,7 @@ function core.Functions.getRandomMount(tableau)
 end
 
 function core.Functions.getLeftButtonParams()
-    if IsSwimming() then
-        return "aquatique"
-
-    elseif IsFlyableArea() or IsAdvancedFlyableArea() then
+    if IsFlyableArea() or IsAdvancedFlyableArea() then
         local expertCavalier = IsPlayerSpell(34090)
         local maitreCavalier = IsPlayerSpell(90265)
 
@@ -71,8 +68,8 @@ function core.Functions.getRightButtonParams()
     local expertCavalier = IsPlayerSpell(34090)
     local maitreCavalier = IsPlayerSpell(90265)
 
-    if IsSwimming() and (expertCavalier or maitreCavalier) then
-        return "volante"
+    if IsSwimming() then
+        return "aquatique"
 
     end
 
